@@ -73,13 +73,13 @@ export function newDate(value) {
   return isValid(d) ? d : null;
 }
 
-export function parseDate(value, dateFormat, locale, strictParsing) {
+export function parseDate(value, dateFormat, locale, strictParsing, referenceDate = new Date()) {
   let parsedDate = null;
   let localeObject = getLocaleObject(locale) || getLocaleObject(getDefaultLocale());
   let strictParsingValueMatch = true;
   if (Array.isArray(dateFormat)) {
     dateFormat.forEach(df => {
-      let tryParseDate = parse(value, df, new Date(), { locale: localeObject });
+      let tryParseDate = parse(value, df, referenceDate, { locale: localeObject });
       if (strictParsing) {
         strictParsingValueMatch =
           isValid(tryParseDate) &&
@@ -92,7 +92,7 @@ export function parseDate(value, dateFormat, locale, strictParsing) {
     return parsedDate;
   }
 
-  parsedDate = parse(value, dateFormat, new Date(), { locale: localeObject });
+  parsedDate = parse(value, dateFormat, referenceDate, { locale: localeObject });
 
   if (strictParsing) {
     strictParsingValueMatch =
@@ -114,7 +114,7 @@ export function parseDate(value, dateFormat, locale, strictParsing) {
       .join("");
 
     if (value.length > 0) {
-      parsedDate = parse(value, dateFormat.slice(0, value.length), new Date());
+      parsedDate = parse(value, dateFormat.slice(0, value.length), referenceDate);
     }
 
     if (!isValid(parsedDate)) {
