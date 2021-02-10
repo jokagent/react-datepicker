@@ -84,6 +84,7 @@ export default class DatePicker extends React.Component {
       onInputError() {},
       monthsShown: 1,
       readOnly: false,
+      referenceDate: null,
       withPortal: false,
       shouldCloseOnSelect: true,
       showTimeSelect: false,
@@ -190,6 +191,7 @@ export default class DatePicker extends React.Component {
     popperProps: PropTypes.object,
     preventOpenOnFocus: PropTypes.bool,
     readOnly: PropTypes.bool,
+    referenceDate: PropTypes.instanceOf(Date),
     required: PropTypes.bool,
     scrollableYearDropdown: PropTypes.bool,
     scrollableMonthYearDropdown: PropTypes.bool,
@@ -460,7 +462,8 @@ export default class DatePicker extends React.Component {
       event.target.value,
       this.props.dateFormat,
       this.props.locale,
-      this.props.strictParsing
+      this.props.strictParsing,
+      this.props.referenceDate
     );
     if (date || !event.target.value) {
       this.setSelected(date, event, true);
